@@ -1,4 +1,1 @@
-<p>
-  map-container works!
-</p>
-<app-map-view></app-map-view>
+<app-map-view [options]="options" (onMapReady)="setMap($event)"></app-map-view>

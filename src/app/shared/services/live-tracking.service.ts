@@ -10,23 +10,18 @@ export class LiveTrackingService {
    private socketSubscription: Subscription;
    private interval = 1000;
 
-   public tracking$: Subject<any>;
-   public state$: Subject<any>;
+   private tracking = new Subject<any>();
+   public tracking$ = this.tracking.asObservable();
+   private state$ = new Subject<any>();
 
    constructor() {
       this.socket$ = WebSocketSubject.create(this.url);
-      this.tracking$ = Subject.create();
-      this.tracking$.subscribe(value => {
-         console.log(value)
-      });
-
-      this.startStream();
    }
 
    public startStream(interval: number = 1000): Observable<any> {
       this.interval = interval;
       this.connect();
-      return this.tracking$;
+      return this.tracking;
    }
 
    public endStream() {
@@ -51,7 +46,7 @@ export class LiveTrackingService {
 
    private onWsRecive(message) {
       console.log(message);
-      this.tracking$.next(message);
+      this.tracking.next(message);
    }
 
    private wsError(err) {

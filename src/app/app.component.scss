@@ -1,0 +1,14 @@
+.page-wrapper {
+   
+   height: 100%;
+   width: 100%;
+   padding: .1px;
+   .page-header {
+      padding: .1px;
+      height: 150px;
+   }
+   .page-view {
+      padding: .1px;
+      height: calc(100% - 150px);
+   }
+}

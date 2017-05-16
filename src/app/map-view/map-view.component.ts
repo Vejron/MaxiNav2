@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit, Output, Input, EventEmitter, ElementRef } from '@angular/core';
-
-declare var google: any;
+import {} from '@types/googlemaps';
 
 @Component({
    selector: 'app-map-view',
@@ -28,7 +27,7 @@ export class MapViewComponent implements OnInit {
          map: this.map
       });
 
-      if (this.overlays) {
+      /*if (this.overlays) {
          for (let overlay of this.overlays) {
             overlay.setMap(this.map);
             this.bindOverlayEvents(overlay);
@@ -39,7 +38,7 @@ export class MapViewComponent implements OnInit {
          this.zone.run(() => {
             this.onMapClick.emit(event);
          });
-      });
+      });*/
    }
 
    getMap() {
