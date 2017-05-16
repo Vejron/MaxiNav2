@@ -315,11 +315,7 @@ ThreejsLayer.prototype.add = function (geometry) {
 ThreejsLayer.prototype.fromLatLngToVertex = function (latLng) {
   var projection = this.map.getProjection(),
     point = projection.fromLatLngToPoint(latLng),
-    vertex = new THREE.Vector3();
-
-  vertex.x = point.x;
-  vertex.y = 255 - point.y;
-  vertex.z = 0;
+    vertex = new THREE.Vector3(point.x, 255 - point.y, 0);
 
   return vertex;
 };
