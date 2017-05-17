@@ -15,6 +15,7 @@ server.use(restify.CORS())
 server.use(restify.fullResponse())
 
 // Routes
+server.get('/felling/area_defs', db.getAreaDefs);
 server.get('/felling/within', db.selectBox);
 server.get('/felling/tracking', db.getLocationHistory);
 server.get('/felling/production', db.getLocationProduction);

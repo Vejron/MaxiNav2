@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule, MdCheckboxModule } from '@angular/material';
+import { MdListModule ,MdButtonModule, MdCheckboxModule, MdIconModule } from '@angular/material';
 
+import { AreaService } from './shared/services/area.service'
 import { LiveTrackingService } from './shared/services/live-tracking.service'
 import { SettingsService } from './shared/services/settings.service'
 
@@ -29,9 +30,10 @@ import { AreaItemComponent } from './area-item/area-item.component';
       FormsModule,
       HttpModule,
       BrowserAnimationsModule,
-      MdButtonModule, MdCheckboxModule
+      MdButtonModule, MdCheckboxModule, MdListModule, MdIconModule
    ],
    providers: [
+      AreaService,
       LiveTrackingService,
       SettingsService
    ],

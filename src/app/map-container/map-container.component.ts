@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Area } from '../shared/models/area'
 import { ThreejsLayer } from '../lib/three-js-layer'
 import * as THREE from 'three';
@@ -9,7 +9,8 @@ import { } from '@types/googlemaps';
    templateUrl: './map-container.component.html',
    styleUrls: ['./map-container.component.scss']
 })
-export class MapContainerComponent implements OnInit {
+export class MapContainerComponent implements OnInit, OnChanges {
+   @Input() area
 
    options: any; // map init options
    map: google.maps.Map; // map instance
@@ -24,10 +25,24 @@ export class MapContainerComponent implements OnInit {
       };
    }
 
+   ngOnChanges(changes: SimpleChanges) {
+      for (let propName in changes) {
+         let chng = changes[propName];
+         let cur = JSON.stringify(chng.currentValue);
+         let prev = JSON.stringify(chng.previousValue);
+         console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+      }
+   }
+
    setMap(event) {
       this.map = event.map;
       console.log('map instance ready');
-      this.setupThreeLayer(this.map);
+      // wait for projection changed event before continuing 
+      // otherwise getProjection returns null 
+      google.maps.event.addListenerOnce(this.map, "projection_changed", () => {
+         this.setupThreeLayer(this.map);
+         console.log('map projection availible');
+      });
    }
 
    private geometry = new THREE.BufferGeometry();
@@ -42,15 +57,17 @@ export class MapContainerComponent implements OnInit {
    private setupThreeLayer(map: any) {
 
       //mock geometry
-      this.geometry.addAttribute( 'position', new THREE.BufferAttribute( this.positions, 3 ) );
+      this.geometry.addAttribute('position', new THREE.BufferAttribute(this.positions, 3));
       //this.geometry.setDrawRange( 0, this.drawCount );
       var that = this;
 
+      var material = new THREE.LineBasicMaterial({
+         color: 0xff00ff
+      });
+
       this.threejsLayer = new ThreejsLayer({ map: this.map }, function (layer) {
 
-         var material = new THREE.LineBasicMaterial({
-            color: 0xff00ff
-         });
+
 
          /*var geometry = new THREE.Geometry();
          geometry.vertices.push(
@@ -59,12 +76,13 @@ export class MapContainerComponent implements OnInit {
             layer.fromLatLngToVertex(new google.maps.LatLng(64, 70))
          );*/
 
-         var line = new THREE.Line(that.geometry, material);
-         that.generateMockgeometry(line);
-         layer.add(line);
+
 
          console.log('threeJs layer ready');
       });
+      var line = new THREE.Line(that.geometry, material);
+      that.generateMockgeometry(line);
+      this.threejsLayer.add(line);
    }
 
    private generateMockgeometry(line) {
@@ -74,15 +92,15 @@ export class MapContainerComponent implements OnInit {
       let projection = this.map.getProjection();
       let point = projection.fromLatLngToPoint(new google.maps.LatLng(36.890257, 30.707417));
 
-      for ( let i = 0, index = 0; i < this.MAX_POINTS; i ++ ) {
+      for (let i = 0, index = 0; i < this.MAX_POINTS; i++) {
 
-         positions[ index ++ ] = point.x;
-         positions[ index ++ ] = 255 - point.y;
-         positions[ index ++ ] = 0;
+         positions[index++] = point.x;
+         positions[index++] = 255 - point.y;
+         positions[index++] = 0;
 
-         point.x += ( Math.random() - 0.5 ) * 0.01;
-         point.y += ( Math.random() - 0.5 ) * 0.01;
+         point.x += (Math.random() - 0.5) * 0.01;
+         point.y += (Math.random() - 0.5) * 0.01;
 
-	   }
+      }
    }
 }

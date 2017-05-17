@@ -1,5 +1,5 @@
 
 <section class="flex fill-parent">
-   <app-area-listing class="area-listing"></app-area-listing>
-   <app-map-container class="map-container"></app-map-container>
+   <app-area-listing (selected)="onAreaSelected($event)" [areas]="areas" class="area-listing"></app-area-listing>
+   <app-map-container [area]="selectedArea" class="map-container"></app-map-container>
 </section>

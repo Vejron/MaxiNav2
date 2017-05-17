@@ -1,3 +1,6 @@
-<p>
-  area-item works!
-</p>
+<div class="panel" (click)="clicked()">
+   <h4>{{area.name}}</h4>
+   <p>{{area.updated | date:'medium'}}</p>
+   <md-icon *ngIf="area.hasContent" >cloud done</md-icon>
+   <md-icon *ngIf="!area.hasContent" >cloud download</md-icon>
+</div>

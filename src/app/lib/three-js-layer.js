@@ -119,6 +119,7 @@ ThreejsLayer.prototype.initialize = function (options) {
     this.renderertype = 'Canvas';
   } else {
     this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
       alpha: true,
       clearColor: 0x000000,
       clearAlpha: 0

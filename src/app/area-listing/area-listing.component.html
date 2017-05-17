@@ -1,3 +1,5 @@
-<p>
-  area-listing works!
-</p>
+<ul>
+   <li *ngFor="let area of areas; let i = index;">
+      <app-area-item [ngClass]="{'active' : area === selectedArea}" [area]=area (selected)="onSelected($event)"></app-area-item>
+   </li>
+</ul>

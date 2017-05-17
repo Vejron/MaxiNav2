@@ -1,32 +1,43 @@
 export class Area {
-   uid: number = 0;
-   name: string = 'none';
-   tracks: Array<Entity> = [];
+   hasContent: boolean = false;
+   entities: Array<Entity> = [];
    production: Array<Tree> = [];
    outline;
 
-   constructor() {
+   get uid(): number {
+      return this._uid;
+   }
+
+   constructor(
+      private id: number,
+      private _uid: number,
+      private fleet: number,
+      private name: string,
+      private property: string,
+      private created: Date,
+      private updated: Date) {
    }
 
    updateTracks(tracks: Array<any>) {
-      
+
       let uniqeGuids = [];
-      let entitys = [];
+      let entities = [];
 
       for (let i = 0; i < tracks.length; i++) {
          let index = uniqeGuids.indexOf(tracks[i].guid);
-         if(index != -1) {
+         if (index != -1) {
             // found machine push location history
-            entitys[index].locationHistory.push({lat: tracks[i].lat, lng: tracks[i].lon});
+            entities[index].locationHistory.push({ lat: tracks[i].lat, lng: tracks[i].lon });
          } else {
             // new machine
             uniqeGuids.push(tracks[i].guid);
-            entitys.push(new Entity(tracks[i].guid));
+            entities.push(new Entity(tracks[i].guid));
 
-            entitys[entitys.length - 1].locationHistory.push({lat: tracks[i].lat, lng: tracks[i].lon});
+            entities[entities.length - 1].locationHistory.push({ lat: tracks[i].lat, lng: tracks[i].lon });
          }
       }
-      console.log(entitys);
+      this.entities = entities;
+      console.log('updated: ' + entities.length + ' machines');
    }
 }
 

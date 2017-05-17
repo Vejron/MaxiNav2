@@ -1,11 +1,12 @@
 .area-listing {
    width: 30%;
    height: 100%;
-   background-color: lawngreen;
+   overflow-y: auto;
+   //background-color: lawngreen;
 }
 
 .map-container {
    width: 70%;
    height: 100%;
-   background-color: lightsalmon;
+   background-color: lightgrey;
 }
