@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { Area, Entity } from '../models/area';
+import { Area, Entity, ITree } from '../models/area';
 
 @Injectable()
 export class AreaService {
@@ -63,6 +63,20 @@ export class AreaService {
       }
 
       return entities;
+   }
+
+   getProduction(areaUid: number = 642004): Observable<ITree[]> {
+      return this.http.get(this.productionUrl + areaUid)
+         .map(this.extractProductionData)
+         .catch(this.handleError);
+   }
+
+   private extractProductionData(res: Response) : Array<ITree> {
+      let production = res.json();
+
+      return production.map( tree => {
+         return {lat: tree.lat, lng: tree.lon, species: tree.species};
+      });
    }
 
    private handleError(error: Response | any) {

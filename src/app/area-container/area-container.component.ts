@@ -4,6 +4,9 @@ import { AreaService } from '../shared/services/area.service'
 import { LiveTrackingService } from '../shared/services/live-tracking.service'
 import { Area } from '../shared/models/area'
 import { MapContainerComponent } from '../map-container/map-container.component'
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/operator/map';
 
 @Component({
    selector: 'app-area-container',
@@ -50,20 +53,26 @@ export class AreaContainerComponent implements OnInit, AfterViewInit, OnDestroy 
       }
    }
 
+
    private onAreaSelected(area: Area) {
       console.log('new area selected:')
+
       if (!area.hasContent) {
          // fetch tracking etc from server
-         this.areaService.getTracking(area.uid)
-            .subscribe(
-            enteties => {
-               area.entities = enteties;
-               area.hasContent = true;
-               console.log(enteties);
-               // finally select it
-               this.selectedArea = area;
-            },
-            error => console.log(error));
+         let tracking = this.areaService.getTracking(area.uid)
+         let production = this.areaService.getProduction(area.uid)
+
+         // in one go
+         Observable.forkJoin([tracking, production]).subscribe(results => {
+            // results[0] is our tracking data
+            // results[1] is our production
+            area.entities = results[0];
+            area.production = results[1];
+            area.hasContent = true;
+            console.log('fork joined tracking and production');
+            // finally select it
+            this.selectedArea = area;
+         }, error => console.log(error));
       } else {
          this.selectedArea = area;
       }

@@ -4,6 +4,7 @@ import { ThreejsLayer } from '../lib/three-js-layer'
 import * as THREE from 'three';
 import { } from '@types/googlemaps';
 import { GlPath, GlTest } from '../shared/models/gl-path';
+import { GlProduction } from '../shared/models/gl-production';
 
 @Component({
    selector: 'app-map-container',
@@ -18,6 +19,7 @@ export class MapContainerComponent implements OnInit, OnChanges {
    threejsLayer: any; // 3d layer
 
    private trails: GlPath;
+   private production: GlProduction;
 
    constructor() { }
 
@@ -36,8 +38,9 @@ export class MapContainerComponent implements OnInit, OnChanges {
             if(current.entities.length > 0) {
 
                this.trails.newTrails(current.entities, this.map.getProjection());
-               this.map.panTo(current.entities[0].locationHistory[0]);
+               this.production.newProduction(current.production, this.map.getProjection());
 
+               this.map.panTo(current.entities[0].locationHistory[0]);
             }
          }
       }
@@ -66,12 +69,16 @@ export class MapContainerComponent implements OnInit, OnChanges {
 
       let projection = map.getProjection();
       
-      //let test = new GlTest(projection);
-      //test.set(this.threejsLayer);
+      let test = new GlTest(projection);
+      test.set(this.threejsLayer);
 
-      this.trails = new GlPath(projection);
+      this.trails = new GlPath();
       this.trails.setVerticesTest(projection);
       this.trails.set(this.threejsLayer);
+
+      this.production = new GlProduction();
+      this.production.setVerticesTest(projection);
+      this.production.set(this.threejsLayer);
 
       //this.threejsLayer.add(test.getSceneObject());
    }

@@ -1,7 +1,7 @@
 export class Area {
    hasContent: boolean = false;
    entities: Array<Entity> = [];
-   production: Array<Tree> = [];
+   production: Array<ITree> = [];
    outline;
 
    get uid(): number {
@@ -18,6 +18,7 @@ export class Area {
       private updated: Date) {
    }
 
+   // todo outdated
    updateTracks(tracks: Array<any>) {
 
       let uniqeGuids = [];
@@ -50,9 +51,10 @@ export class Entity {
    }
 }
 
-export class Tree {
-   type: string = 'pine';
-   dbh: number = 100;
+export interface ITree {
+   lat: number;
+   lng: number;
+   species: string;
 }
 
 export interface ILocation {

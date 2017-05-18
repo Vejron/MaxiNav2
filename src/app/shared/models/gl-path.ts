@@ -11,10 +11,8 @@ export class GlPath {
    private readonly MAX_POINTS = 100000; //even
    private drawCount = 0;
    private lineSegments;
-   private projection: google.maps.Projection;
 
-   constructor(projection) {
-      this.projection = projection;
+   constructor() {
 
       let positions = new Float32Array(this.MAX_POINTS * 3 * 2);
       let colors = new Float32Array(this.MAX_POINTS * 3 * 2);
@@ -28,16 +26,16 @@ export class GlPath {
       let color;
       switch (status) {
          case 'Stopped':
-               color = {r: 1, g: 0, b: 0};
+            color = { r: 1, g: 0, b: 0 };
             break;
          case 'TerrainTravel':
-               color = {r: 1, g: 1, b: 0};
+            color = { r: 1, g: 1, b: 0 };
             break;
          case 'Processing':
-               color = {r: 0, g: 0, b: 1};
+            color = { r: 0, g: 0, b: 1 };
             break;
          default:
-               color = {r: 0, g: 0, b: 0};
+            color = { r: 0, g: 0, b: 0 };
             break;
       }
       return color;
@@ -49,7 +47,6 @@ export class GlPath {
       let index = 0;
 
       for (let entity of enteties) {
-         let r = Math.random(), g = Math.random(), b = Math.random();
 
          for (let i = 0; i < entity.locationHistory.length - 1; i++) {
 
@@ -82,7 +79,7 @@ export class GlPath {
          }
       }
       console.log(`positions array size: ${index}`);
-      this.geometry.setDrawRange( 0, index / 3 );
+      this.geometry.setDrawRange(0, index / 3);
       this.geometry.attributes.position.needsUpdate = true;
       this.geometry.attributes.color.needsUpdate = true;
    }
@@ -147,7 +144,7 @@ export class GlPath {
 
 }
 
-export class GlTest {
+export class GlTestLines {
    private geometry = new THREE.BufferGeometry();
    private readonly MAX_POINTS = 5000000;
    private positions = new Float32Array(this.MAX_POINTS * 3);
@@ -180,6 +177,66 @@ export class GlTest {
          point.y += (Math.random() - 0.5) * 0.01;
 
       }
+   }
+
+   set(layer) {
+      layer.add(this.path);
+   }
+
+   remove(layer) {
+      layer.remove(this.path);
+   }
+
+   getSceneObject() {
+      return this.path;
+   }
+
+   dispose() {
+      this.geometry.dispose();
+      this.material.dispose();
+   }
+}
+
+export class GlTest {
+   private geometry = new THREE.BufferGeometry();
+   private readonly MAX_POINTS = 5000000;
+   private positions = new Float32Array(this.MAX_POINTS * 3);
+   private drawCount = 0;
+   private material;
+   private path;
+
+   constructor(projection) {
+      this.geometry.addAttribute('position', new THREE.BufferAttribute(this.positions, 3));
+      this.material = new THREE.LineBasicMaterial({
+         color: 0xff00ff
+      });
+      //this.path = new THREE.Line(this.geometry, this.material);
+      this.generateMockgeometry(projection);
+   }
+
+   private generateMockgeometry(projection) {
+
+      var starsGeometry = new THREE.Geometry();
+
+      let point = projection.fromLatLngToPoint(new google.maps.LatLng(36.890257, 30.707417));
+      for (var i = 0; i < 10000; i++) {
+
+         var star = new THREE.Vector3();
+         star.x = point.x;
+         star.y = 255 - point.y;
+         star.z = 0;
+
+         starsGeometry.vertices.push(star)
+         starsGeometry.colors.push( new THREE.Color('blue'));
+
+         point.x += (Math.random() - 0.5) * 0.01;
+         point.y += (Math.random() - 0.5) * 0.01;
+
+      }
+
+      var starsMaterial = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 10, vertexColors: true })
+
+      this.path = new THREE.Points(starsGeometry, starsMaterial);
    }
 
    set(layer) {
