@@ -58,4 +58,5 @@ export class Tree {
 export interface ILocation {
    lat: number;
    lng: number;
+   status: string;
 }

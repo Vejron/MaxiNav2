@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Area } from '../shared/models/area'
+import { Area, Entity } from '../shared/models/area'
 import { ThreejsLayer } from '../lib/three-js-layer'
 import * as THREE from 'three';
 import { } from '@types/googlemaps';
+import { GlPath, GlTest } from '../shared/models/gl-path';
 
 @Component({
    selector: 'app-map-container',
@@ -10,11 +11,13 @@ import { } from '@types/googlemaps';
    styleUrls: ['./map-container.component.scss']
 })
 export class MapContainerComponent implements OnInit, OnChanges {
-   @Input() area
+   @Input() area: Area
 
    options: any; // map init options
    map: google.maps.Map; // map instance
    threejsLayer: any; // 3d layer
+
+   private trails: GlPath;
 
    constructor() { }
 
@@ -27,10 +30,16 @@ export class MapContainerComponent implements OnInit, OnChanges {
 
    ngOnChanges(changes: SimpleChanges) {
       for (let propName in changes) {
-         let chng = changes[propName];
-         let cur = JSON.stringify(chng.currentValue);
-         let prev = JSON.stringify(chng.previousValue);
-         console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+         let current : Area = changes[propName].currentValue;
+         if(propName === 'area' && current) {
+            // new area selected
+            if(current.entities.length > 0) {
+
+               this.trails.newTrails(current.entities, this.map.getProjection());
+               this.map.panTo(current.entities[0].locationHistory[0]);
+
+            }
+         }
       }
    }
 
@@ -45,62 +54,25 @@ export class MapContainerComponent implements OnInit, OnChanges {
       });
    }
 
-   private geometry = new THREE.BufferGeometry();
-   private readonly MAX_POINTS = 5000000;
-   private positions = new Float32Array(this.MAX_POINTS * 3);
-   private drawCount = 0;
-
    updateArea(area: Area) {
 
    }
 
    private setupThreeLayer(map: any) {
-
-      //mock geometry
-      this.geometry.addAttribute('position', new THREE.BufferAttribute(this.positions, 3));
-      //this.geometry.setDrawRange( 0, this.drawCount );
-      var that = this;
-
-      var material = new THREE.LineBasicMaterial({
-         color: 0xff00ff
-      });
-
+      
       this.threejsLayer = new ThreejsLayer({ map: this.map }, function (layer) {
-
-
-
-         /*var geometry = new THREE.Geometry();
-         geometry.vertices.push(
-            layer.fromLatLngToVertex(new google.maps.LatLng(64, 23)),
-            layer.fromLatLngToVertex(new google.maps.LatLng(20, 23)),
-            layer.fromLatLngToVertex(new google.maps.LatLng(64, 70))
-         );*/
-
-
-
          console.log('threeJs layer ready');
       });
-      var line = new THREE.Line(that.geometry, material);
-      that.generateMockgeometry(line);
-      this.threejsLayer.add(line);
-   }
 
-   private generateMockgeometry(line) {
-      var loo = line;
-      var positions = line.geometry.attributes.position.array;
+      let projection = map.getProjection();
+      
+      //let test = new GlTest(projection);
+      //test.set(this.threejsLayer);
 
-      let projection = this.map.getProjection();
-      let point = projection.fromLatLngToPoint(new google.maps.LatLng(36.890257, 30.707417));
+      this.trails = new GlPath(projection);
+      this.trails.setVerticesTest(projection);
+      this.trails.set(this.threejsLayer);
 
-      for (let i = 0, index = 0; i < this.MAX_POINTS; i++) {
-
-         positions[index++] = point.x;
-         positions[index++] = 255 - point.y;
-         positions[index++] = 0;
-
-         point.x += (Math.random() - 0.5) * 0.01;
-         point.y += (Math.random() - 0.5) * 0.01;
-
-      }
+      //this.threejsLayer.add(test.getSceneObject());
    }
 }
