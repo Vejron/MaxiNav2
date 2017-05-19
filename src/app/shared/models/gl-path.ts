@@ -82,6 +82,7 @@ export class GlPath {
       this.geometry.setDrawRange(0, index / 3);
       this.geometry.attributes.position.needsUpdate = true;
       this.geometry.attributes.color.needsUpdate = true;
+      this.geometry.computeBoundingSphere();
    }
 
    setVerticesTest(projection: google.maps.Projection) {

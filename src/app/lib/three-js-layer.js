@@ -199,8 +199,8 @@ ThreejsLayer.prototype.draw = function () {
   }
 
   this.canvas.style[ThreejsLayer.CSS_TRANSFORM] = 'translate(' +
-    Math.round(point.x) + 'px,' +
-    Math.round(point.y) + 'px)';
+    (point.x) + 'px,' +
+    (point.y) + 'px)';
 
   if (this.firstRun) {
     this.firstRun = false;

@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
 import { Area, Entity } from '../shared/models/area'
 import { ThreejsLayer } from '../lib/three-js-layer'
 import * as THREE from 'three';
 import { } from '@types/googlemaps';
 import { GlPath, GlTest } from '../shared/models/gl-path';
-import { GlProduction } from '../shared/models/gl-production';
+import { GlProduction, GlProductionSprite } from '../shared/models/gl-production';
 
 @Component({
    selector: 'app-map-container',
@@ -17,17 +17,24 @@ export class MapContainerComponent implements OnInit, OnChanges {
    options: any; // map init options
    map: google.maps.Map; // map instance
    threejsLayer: any; // 3d layer
+   //tracks;
 
    private trails: GlPath;
-   private production: GlProduction;
+   private production;
 
-   constructor() { }
+   constructor(public element: ElementRef) { }
 
    ngOnInit() {
       this.options = {
          center: { lat: 36.890257, lng: 30.707417 },
-         zoom: 12
+         zoom: 18
       };
+
+      this.map = new google.maps.Map(this.element.nativeElement.children[0], this.options);
+      google.maps.event.addListenerOnce(this.map, "projection_changed", () => {
+         this.setupThreeLayer(this.map);
+         console.log('map projection availible');
+      });
    }
 
    ngOnChanges(changes: SimpleChanges) {
@@ -37,24 +44,16 @@ export class MapContainerComponent implements OnInit, OnChanges {
             // new area selected
             if(current.entities.length > 0) {
 
-               this.trails.newTrails(current.entities, this.map.getProjection());
+               //this.trails.newTrails(current.entities, this.map.getProjection());
                this.production.newProduction(current.production, this.map.getProjection());
 
                this.map.panTo(current.entities[0].locationHistory[0]);
+
+               //test rt component
+               //this.tracks = current.entities;
             }
          }
       }
-   }
-
-   setMap(event) {
-      this.map = event.map;
-      console.log('map instance ready');
-      // wait for projection changed event before continuing 
-      // otherwise getProjection returns null 
-      google.maps.event.addListenerOnce(this.map, "projection_changed", () => {
-         this.setupThreeLayer(this.map);
-         console.log('map projection availible');
-      });
    }
 
    updateArea(area: Area) {
@@ -69,17 +68,16 @@ export class MapContainerComponent implements OnInit, OnChanges {
 
       let projection = map.getProjection();
       
-      let test = new GlTest(projection);
-      test.set(this.threejsLayer);
+      //let test = new GlTest(projection);
+      //test.set(this.threejsLayer);
 
       this.trails = new GlPath();
       this.trails.setVerticesTest(projection);
       this.trails.set(this.threejsLayer);
 
-      this.production = new GlProduction();
+      this.production = new GlProductionSprite();
       this.production.setVerticesTest(projection);
       this.production.set(this.threejsLayer);
 
-      //this.threejsLayer.add(test.getSceneObject());
    }
 }

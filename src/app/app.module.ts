@@ -15,6 +15,7 @@ import { MapContainerComponent } from './map-container/map-container.component';
 import { MapViewComponent } from './map-view/map-view.component';
 import { AreaListingComponent } from './area-listing/area-listing.component';
 import { AreaItemComponent } from './area-item/area-item.component';
+import { MapRtComponent } from './map-rt/map-rt.component';
 
 @NgModule({
    declarations: [
@@ -23,7 +24,8 @@ import { AreaItemComponent } from './area-item/area-item.component';
       MapContainerComponent,
       MapViewComponent,
       AreaListingComponent,
-      AreaItemComponent
+      AreaItemComponent,
+      MapRtComponent
    ],
    imports: [
       BrowserModule,

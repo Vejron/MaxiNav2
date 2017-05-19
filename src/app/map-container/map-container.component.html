@@ -1,1 +1,4 @@
-<app-map-view [options]="options" (onMapReady)="setMap($event)"></app-map-view>
+<div id="gmap"></div>
+<!--app-map-view [options]="options" (onMapReady)="setMap($event)">
+</app-map-view-->
+<app-map-rt [map]="map" [area]="area"></app-map-rt>
