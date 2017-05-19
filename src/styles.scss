@@ -25,12 +25,17 @@ body {
 ::-webkit-scrollbar {
     width: 4px;
 }
- 
+
 ::-webkit-scrollbar-track {
    background-color: lightgray;
 }
- 
+
 ::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
+}
+
+md-checkbox .mat-checkbox-inner-container {
+  height: 16px;
+  width: 16px;
 }

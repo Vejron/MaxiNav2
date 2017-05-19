@@ -16,7 +16,7 @@ export class MapContainerComponent implements OnInit, OnChanges {
 
    options: any; // map init options
    map: google.maps.Map; // map instance
-   threejsLayer: any; // 3d layer
+   threeLayer: any; // 3d layer
    //tracks;
 
    private trails: GlPath;
@@ -61,23 +61,23 @@ export class MapContainerComponent implements OnInit, OnChanges {
    }
 
    private setupThreeLayer(map: any) {
-      
-      this.threejsLayer = new ThreejsLayer({ map: this.map }, function (layer) {
+
+      this.threeLayer = new ThreejsLayer({ map: this.map }, function (layer) {
          console.log('threeJs layer ready');
       });
 
       let projection = map.getProjection();
-      
+
       //let test = new GlTest(projection);
       //test.set(this.threejsLayer);
 
       this.trails = new GlPath();
       this.trails.setVerticesTest(projection);
-      this.trails.set(this.threejsLayer);
+      this.trails.set(this.threeLayer);
 
       this.production = new GlProductionSprite();
-      this.production.setVerticesTest(projection);
-      this.production.set(this.threejsLayer);
+      //this.production.setVerticesTest(projection);
+      this.production.set(this.threeLayer);
 
    }
 }

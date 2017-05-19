@@ -3,8 +3,26 @@
    height: 100%;
 }
 
-app-map-rt {
+.top-right {
    position: absolute;
    top: 0;
    right: 0;
+}
+
+.g-panel {
+   font-size: 11px;
+   font-family: Roboto, Arial, sans-serif;
+   //font-weight: 500;
+   margin: 10px;
+   background-color: rgb(255, 255, 255);
+   padding: 8px;
+   border-radius: 2px;
+   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+   //line-height: normal;
+}
+
+.g-divider {
+  height: 1px;
+  background-color: rgb(230, 230, 230);
+  margin: 10px 0;
 }

@@ -16,6 +16,8 @@ import { MapViewComponent } from './map-view/map-view.component';
 import { AreaListingComponent } from './area-listing/area-listing.component';
 import { AreaItemComponent } from './area-item/area-item.component';
 import { MapRtComponent } from './map-rt/map-rt.component';
+import { ProductionLayerComponent } from './map-container/production-layer/production-layer.component';
+import { CollapseComponent } from './shared/components/collapse/collapse.component';
 
 @NgModule({
    declarations: [
@@ -25,7 +27,9 @@ import { MapRtComponent } from './map-rt/map-rt.component';
       MapViewComponent,
       AreaListingComponent,
       AreaItemComponent,
-      MapRtComponent
+      MapRtComponent,
+      ProductionLayerComponent,
+      CollapseComponent
    ],
    imports: [
       BrowserModule,
