@@ -1,0 +1,10 @@
+<app-collapse [title]="'Machines'">
+  <div *ngFor="let machine of machines">
+    <md-checkbox>{{machine}}</md-checkbox>
+  </div>
+</app-collapse>
+<app-collapse [title]="'Status'">
+  <div *ngFor="let status of statusTypes">
+    <md-checkbox>{{status}}</md-checkbox>
+  </div>
+</app-collapse>

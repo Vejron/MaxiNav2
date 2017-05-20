@@ -18,6 +18,8 @@ import { AreaItemComponent } from './area-item/area-item.component';
 import { MapRtComponent } from './map-rt/map-rt.component';
 import { ProductionLayerComponent } from './map-container/production-layer/production-layer.component';
 import { CollapseComponent } from './shared/components/collapse/collapse.component';
+import { MachineLayerComponent } from './map-container/machine-layer/machine-layer.component';
+import { NotificationLayerComponent } from './map-container/notification-layer/notification-layer.component';
 
 @NgModule({
    declarations: [
@@ -29,7 +31,9 @@ import { CollapseComponent } from './shared/components/collapse/collapse.compone
       AreaItemComponent,
       MapRtComponent,
       ProductionLayerComponent,
-      CollapseComponent
+      CollapseComponent,
+      MachineLayerComponent,
+      NotificationLayerComponent
    ],
    imports: [
       BrowserModule,

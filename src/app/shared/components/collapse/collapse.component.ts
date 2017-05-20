@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-collapse',
@@ -6,8 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./collapse.component.scss']
 })
 export class CollapseComponent implements OnInit {
+  @Input() title = 'Title';
 
-  title = 'Title';
   toggled = false;
 
   constructor() { }

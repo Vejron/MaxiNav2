@@ -1,3 +1,5 @@
-<div *ngFor="let specie of species; let i = index;">
-  <md-checkbox  >{{specie}}</md-checkbox>
-</div>
+<app-collapse [title]="'Species'">
+  <div *ngFor="let specie of species">
+    <md-checkbox>{{specie}}</md-checkbox>
+  </div>
+</app-collapse>
