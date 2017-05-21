@@ -1,3 +1,21 @@
 .notifications{
 
 }
+
+.mx-toggle-button {
+  border-radius: 2px;
+  padding: 2px;
+  cursor: pointer;
+  background-color: inherit;
+  transition: all 0.3s;
+  &.active {
+    background-color: #e6e6e6;
+    * {
+      transition: all 0.3s;
+      transform: skewX(-15deg);
+    }
+  }
+  &:hover {
+    background-color: #e6e6e6;
+  }
+}

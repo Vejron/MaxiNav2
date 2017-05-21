@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdListModule ,MdButtonModule, MdCheckboxModule, MdIconModule } from '@angular/material';
+import { MdButtonModule, MdButtonToggleModule, MdCheckboxModule, MdIconModule, } from '@angular/material';
 
 import { AreaService } from './shared/services/area.service'
 import { LiveTrackingService } from './shared/services/live-tracking.service'
@@ -40,7 +40,7 @@ import { NotificationLayerComponent } from './map-container/notification-layer/n
       FormsModule,
       HttpModule,
       BrowserAnimationsModule,
-      MdButtonModule, MdCheckboxModule, MdListModule, MdIconModule
+      MdButtonModule, MdCheckboxModule, MdButtonToggleModule, MdIconModule
    ],
    providers: [
       AreaService,
