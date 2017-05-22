@@ -72,11 +72,17 @@ export class GoogleTrails {
       } 
    }
 
-   private mockLoc = {lat: 0, lng: 0};
+   private step = 0;
    updateMock() {
       let path = this.lines[this.lines.length - 1].getPath();
       let latlng =  path.getAt(path.getLength() - 1);
       let nextLocation = new google.maps.LatLng(latlng.lat() + (Math.random() - 0.5) * 0.001, latlng.lng() + (Math.random() - 0.5) * 0.001);
       path.push(nextLocation);
+
+      if((this.step++ > 3)) {
+         this.step = 0;
+         this.lines[this.lines.length - 1].getMap().panTo(nextLocation);
+      }
+      
    }
 }

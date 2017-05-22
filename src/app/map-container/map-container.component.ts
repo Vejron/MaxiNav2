@@ -45,9 +45,10 @@ export class MapContainerComponent implements OnInit, OnChanges {
             if(current.entities.length > 0) {
 
                //this.trails.newTrails(current.entities, this.map.getProjection());
-               this.production.newProduction(current.production, this.map.getProjection());
+               //this.production.newProduction(current.production, this.map.getProjection());
 
                this.map.panTo(current.entities[0].locationHistory[0]);
+               this.map.setZoom(16);
 
                //test rt component
                //this.tracks = current.entities;
@@ -75,9 +76,9 @@ export class MapContainerComponent implements OnInit, OnChanges {
       this.trails.setVerticesTest(projection);
       this.trails.set(this.threeLayer);
 
-      this.production = new GlProductionSprite();
+      //this.production = new GlProductionSprite();
       //this.production.setVerticesTest(projection);
-      this.production.set(this.threeLayer);
+      //this.production.set(this.threeLayer);
 
    }
 }
